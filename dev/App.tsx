@@ -1,4 +1,4 @@
-import {Turnstile} from "../src";
+import { Turnstile } from "../src";
 
 const App = () => {
   return (
