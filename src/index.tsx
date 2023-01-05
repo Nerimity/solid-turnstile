@@ -1,10 +1,7 @@
 import { JSX, onMount } from "solid-js";
 
-
-
-  
 interface RenderOpts {
-  sitekey: string,
+  sitekey: string;
   callback: (token: string) => void;
   "error-callback": () => void;
   "expired-callback": () => void;
@@ -39,21 +36,21 @@ interface TurnstileCallbacks {
   onTimeout?: () => void;
 }
 
-
 export default function Turnstile(props: Props) {
   const turnstile = () => (window as any).turnstile as TurnstileFunc;
   let element: HTMLDivElement | undefined;
 
   onMount(() => {
-    if (document.getElementById('turnstileScript')) return ready();
+    if (document.getElementById("turnstileScript")) return ready();
     const scriptEl = document.createElement("script");
-    scriptEl.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback";
-    scriptEl.id = "turnstileScript"
+    scriptEl.src =
+      "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback";
+    scriptEl.id = "turnstileScript";
     document.body.appendChild(scriptEl);
 
-    (window as any).onloadTurnstileCallback = ready
-  })
-  
+    (window as any).onloadTurnstileCallback = ready;
+  });
+
   const ready = () => {
     const id = turnstile().render(element!, {
       sitekey: props.sitekey,
@@ -68,10 +65,10 @@ export default function Turnstile(props: Props) {
         if (props.autoResetOnExpire) turnstile().reset(id);
       },
       "timeout-callback": () => props.onTimeout?.(),
-      retry: props.retry
-    })
+      retry: props.retry,
+    });
     props.onLoad?.(id);
-  }
+  };
 
   return <div class={props.class} style={props.style} ref={element}></div>;
-};
+}
