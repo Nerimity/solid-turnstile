@@ -31,8 +31,8 @@ interface Props extends TurnstileCallbacks {
   theme?: "light" | "dark" | "auto";
   size?: "normal" | "invisible" | "compact";
   autoResetOnExpire?: boolean;
-  reset?: any
-  ref?: TurnstileRef | ((v: TurnstileRef) => void)
+  reset?: any;
+  ref?: TurnstileRef | ((v: TurnstileRef) => void);
 }
 interface TurnstileCallbacks {
   onVerify: (token: string) => void;
@@ -41,7 +41,6 @@ interface TurnstileCallbacks {
   onExpire?: () => void;
   onTimeout?: () => void;
 }
-
 
 export function Turnstile(props: Props) {
   const turnstile = () => (window as any).turnstile as TurnstileFunc;
@@ -75,11 +74,10 @@ export function Turnstile(props: Props) {
       retry: props.retry,
     });
     props.onLoad?.(id);
- 
-    (props?.ref as any)?.({
-      reset: () => turnstile().reset(id)
-    })
 
+    (props?.ref as any)?.({
+      reset: () => turnstile().reset(id),
+    });
   };
 
   return <div class={props.class} style={props.style} ref={element}></div>;
