@@ -1,6 +1,6 @@
 {
-  "version": "1.1.0",
-  "name": "solid-turnstile",
+  "version": "1.0.0",
+  "name": "@nerimity/solid-turnstile",
   "description": "SolidJS library for Cloudflare Turnstile",
   "license": "MIT",
   "author": "Supertigerr",
