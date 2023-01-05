@@ -1,4 +1,4 @@
-import { JSX, onMount } from "solid-js";
+import { JSX, onMount, Ref } from "solid-js";
 
 interface RenderOpts {
   sitekey: string;
@@ -19,6 +19,10 @@ interface TurnstileFunc {
   reset: any;
 }
 
+export interface TurnstileRef {
+  reset: () => void;
+}
+
 interface Props extends TurnstileCallbacks {
   class?: string;
   style?: JSX.CSSProperties;
@@ -27,6 +31,8 @@ interface Props extends TurnstileCallbacks {
   theme?: "light" | "dark" | "auto";
   size?: "normal" | "invisible" | "compact";
   autoResetOnExpire?: boolean;
+  reset?: any
+  ref?: TurnstileRef | ((v: TurnstileRef) => void)
 }
 interface TurnstileCallbacks {
   onVerify: (token: string) => void;
@@ -35,6 +41,7 @@ interface TurnstileCallbacks {
   onExpire?: () => void;
   onTimeout?: () => void;
 }
+
 
 export function Turnstile(props: Props) {
   const turnstile = () => (window as any).turnstile as TurnstileFunc;
@@ -68,6 +75,11 @@ export function Turnstile(props: Props) {
       retry: props.retry,
     });
     props.onLoad?.(id);
+ 
+    (props?.ref as any)?.({
+      reset: () => turnstile().reset(id)
+    })
+
   };
 
   return <div class={props.class} style={props.style} ref={element}></div>;

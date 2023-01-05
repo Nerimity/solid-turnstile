@@ -29,8 +29,15 @@ Use it:
 import {Turnstile} from "solid-turnstile";
 
 function TurnstileWidget() {
+  let ref: TurnstileRef | undefined;
+
+  createEffect(() => {
+    ref?.reset() // resets the captcha whenever you need to.
+  })
+
   return (
     <Turnstile
+      ref={ref}
       sitekey="1x00000000000000000000AA"
       onVerify={(token) => alert(token)}
     />
