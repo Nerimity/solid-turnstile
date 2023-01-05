@@ -36,7 +36,7 @@ interface TurnstileCallbacks {
   onTimeout?: () => void;
 }
 
-export default function Turnstile(props: Props) {
+export function Turnstile(props: Props) {
   const turnstile = () => (window as any).turnstile as TurnstileFunc;
   let element: HTMLDivElement | undefined;
 
